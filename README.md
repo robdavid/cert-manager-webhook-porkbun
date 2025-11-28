@@ -5,28 +5,25 @@ This is an unofficial webhook solver for [cert-manager](https://cert-manager.io/
 ## Usage
 
 1. Deploy the webhook:
+    ```bash
+    helm repo add webhook-porkbun \
+      https://robdavid.github.io/cert-manager-webhook-porkbun
 
-    ```
-    helm install porkbun-webhook ./deploy/porkbun-webhook \
-        --set groupName=<your group>
+    helm install porkbun-webhook \
+      webhook-porkbun/cert-manager-porkbun-webhook \
+      --set groupName=<your group>
     ```
 
 2. Create a secret containing your [API key](https://porkbun.com/account/api):
 
-    ```
+    ```bash
     kubectl create secret generic porkbun-key \
         --from-literal=api-key=<your key> \
         --from-literal=secret-key=<your key> \
         --from-literal=zone-name=example.com.
     ```
 
-3. Create a role and role binding:
-
-    ```
-    kubectl apply -f rbac.yaml
-    ```
-
-4. Configure a certificate issuer:
+3. Configure a certificate issuer:
 
     ```yaml
     apiVersion: cert-manager.io/v1
