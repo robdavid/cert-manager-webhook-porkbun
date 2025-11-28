@@ -2,8 +2,8 @@ GO ?= $(shell which go)
 OS ?= $(shell $(GO) env GOOS)
 ARCH ?= $(shell $(GO) env GOARCH)
 
-IMAGE_NAME := "webhook"
-IMAGE_TAG := "latest"
+IMAGE_NAME := "cert-manager-webhook-porkbun"
+IMAGE_TAG := "v0.4.0"
 
 OUT := $(shell pwd)/_out
 
