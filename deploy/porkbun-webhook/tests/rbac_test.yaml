@@ -1,9 +1,57 @@
 suite: test rbac
 templates:
   - rbac.yaml
+release:
+  name: instance
+  namespace: cert-manager
+set:
+  groupName: example.com
+
 tests:
+
   - it: should pass basic checks
-    set:
-      groupName: example.com
     asserts:
       - matchSnapshot: {}
+
+  - it: should create one service ServiceAccount
+    documentSelector:
+      path: kind
+      value: ServiceAccount
+    asserts:
+      - equal:
+          path: metadata.name
+          value: instance-cert-manager-porkbun-webhook
+
+  - it: should generate a role for a secret
+    documentSelector:
+      path: $[?(@.kind == "Role")].metadata.name
+      value: instance-cert-manager-porkbun-webhook:secrets
+    asserts:
+      - equal:
+          path: rules
+          value:
+            - apiGroups:
+              - ""
+              resources:
+              - "secrets"
+              verbs:
+              - "get"
+
+  - it: should generate a role binding for a secret
+    documentSelector:
+      path: $[?(@.kind == "RoleBinding")].metadata.name
+      value: instance-cert-manager-porkbun-webhook:secrets
+    asserts:
+      - equal:
+          path: roleRef
+          value:
+            apiGroup: rbac.authorization.k8s.io
+            kind: Role
+            name: instance-cert-manager-porkbun-webhook:secrets
+      - equal:
+          path: subjects
+          value:
+            - apiGroup: ""
+              kind: ServiceAccount
+              name: instance-cert-manager-porkbun-webhook
+              namespace: cert-manager

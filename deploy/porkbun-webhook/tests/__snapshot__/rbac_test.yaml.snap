@@ -7,9 +7,9 @@ should pass basic checks:
         app: cert-manager-porkbun-webhook
         chart: cert-manager-porkbun-webhook-0.4.0
         heritage: Helm
-        release: RELEASE-NAME
-      name: RELEASE-NAME-cert-manager-porkbun-webhook
-      namespace: NAMESPACE
+        release: instance
+      name: instance-cert-manager-porkbun-webhook
+      namespace: cert-manager
   2: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: RoleBinding
@@ -18,8 +18,8 @@ should pass basic checks:
         app: cert-manager-porkbun-webhook
         chart: cert-manager-porkbun-webhook-0.4.0
         heritage: Helm
-        release: RELEASE-NAME
-      name: RELEASE-NAME-cert-manager-porkbun-webhook:webhook-authentication-reader
+        release: instance
+      name: instance-cert-manager-porkbun-webhook:webhook-authentication-reader
       namespace: kube-system
     roleRef:
       apiGroup: rbac.authorization.k8s.io
@@ -28,8 +28,8 @@ should pass basic checks:
     subjects:
       - apiGroup: ""
         kind: ServiceAccount
-        name: RELEASE-NAME-cert-manager-porkbun-webhook
-        namespace: NAMESPACE
+        name: instance-cert-manager-porkbun-webhook
+        namespace: cert-manager
   3: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
@@ -38,8 +38,8 @@ should pass basic checks:
         app: cert-manager-porkbun-webhook
         chart: cert-manager-porkbun-webhook-0.4.0
         heritage: Helm
-        release: RELEASE-NAME
-      name: RELEASE-NAME-cert-manager-porkbun-webhook:auth-delegator
+        release: instance
+      name: instance-cert-manager-porkbun-webhook:auth-delegator
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: ClusterRole
@@ -47,8 +47,8 @@ should pass basic checks:
     subjects:
       - apiGroup: ""
         kind: ServiceAccount
-        name: RELEASE-NAME-cert-manager-porkbun-webhook
-        namespace: NAMESPACE
+        name: instance-cert-manager-porkbun-webhook
+        namespace: cert-manager
   4: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
@@ -57,8 +57,8 @@ should pass basic checks:
         app: cert-manager-porkbun-webhook
         chart: cert-manager-porkbun-webhook-0.4.0
         heritage: Helm
-        release: RELEASE-NAME
-      name: RELEASE-NAME-cert-manager-porkbun-webhook:domain-solver
+        release: instance
+      name: instance-cert-manager-porkbun-webhook:domain-solver
     rules:
       - apiGroups:
           - example.com
@@ -74,14 +74,42 @@ should pass basic checks:
         app: cert-manager-porkbun-webhook
         chart: cert-manager-porkbun-webhook-0.4.0
         heritage: Helm
-        release: RELEASE-NAME
-      name: RELEASE-NAME-cert-manager-porkbun-webhook:domain-solver
+        release: instance
+      name: instance-cert-manager-porkbun-webhook:domain-solver
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: ClusterRole
-      name: RELEASE-NAME-cert-manager-porkbun-webhook:domain-solver
+      name: instance-cert-manager-porkbun-webhook:domain-solver
     subjects:
       - apiGroup: ""
         kind: ServiceAccount
         name: cert-manager
         namespace: cert-manager
+  6: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: instance-cert-manager-porkbun-webhook:secrets
+      namespace: cert-manager
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: instance-cert-manager-porkbun-webhook:secrets
+    subjects:
+      - apiGroup: ""
+        kind: ServiceAccount
+        name: instance-cert-manager-porkbun-webhook
+        namespace: cert-manager
+  7: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: instance-cert-manager-porkbun-webhook:secrets
+      namespace: cert-manager
+    rules:
+      - apiGroups:
+          - ""
+        resources:
+          - secrets
+        verbs:
+          - get
