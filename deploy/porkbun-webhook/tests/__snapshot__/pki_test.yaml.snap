@@ -24,7 +24,7 @@ should pass basic checks:
       name: RELEASE-NAME-cert-manager-porkbun-webhook-ca
       namespace: NAMESPACE
     spec:
-      commonName: ca.example-webhook.cert-manager
+      commonName: ca.porkbun-webhook.cert-manager
       duration: 43800h
       isCA: true
       issuerRef:
