@@ -1,0 +1,58 @@
+should pass basic checks:
+  1: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app: cert-manager-porkbun-webhook
+        chart: cert-manager-porkbun-webhook-0.4.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: RELEASE-NAME-cert-manager-porkbun-webhook
+      namespace: NAMESPACE
+    spec:
+      replicas: null
+      selector:
+        matchLabels:
+          app: cert-manager-porkbun-webhook
+          release: RELEASE-NAME
+      template:
+        metadata:
+          labels:
+            app: cert-manager-porkbun-webhook
+            release: RELEASE-NAME
+        spec:
+          containers:
+            - args:
+                - --tls-cert-file=/tls/tls.crt
+                - --tls-private-key-file=/tls/tls.key
+              env:
+                - name: GROUP_NAME
+                  value: example.com
+              image: ghcr.io/robdavid/cert-manager-webhook-porkbun:v0.4.0
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                httpGet:
+                  path: /healthz
+                  port: https
+                  scheme: HTTPS
+              name: cert-manager-porkbun-webhook
+              ports:
+                - containerPort: 443
+                  name: https
+                  protocol: TCP
+              readinessProbe:
+                httpGet:
+                  path: /healthz
+                  port: https
+                  scheme: HTTPS
+              resources: {}
+              volumeMounts:
+                - mountPath: /tls
+                  name: certs
+                  readOnly: true
+          serviceAccountName: RELEASE-NAME-cert-manager-porkbun-webhook
+          volumes:
+            - name: certs
+              secret:
+                secretName: RELEASE-NAME-cert-manager-porkbun-webhook-webhook-tls

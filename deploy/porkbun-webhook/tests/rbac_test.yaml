@@ -1,0 +1,9 @@
+suite: test rbac
+templates:
+  - rbac.yaml
+tests:
+  - it: should pass basic checks
+    set:
+      groupName: example.com
+    asserts:
+      - matchSnapshot: {}

@@ -9,7 +9,9 @@ OUT := $(shell pwd)/_out
 
 KUBEBUILDER_VERSION=1.28.0
 
-HELM_FILES := $(shell find deploy/example-webhook)
+HELM_FILES := $(shell find deploy/porkbun-webhook)
+HELM_PLUGINS := $(shell helm env HELM_PLUGINS)
+HELM_UNITTEST_PLUGIN := $(HELM_PLUGINS)/helm-unittest.git
 
 test: _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/etcd _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/kube-apiserver _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/kubectl
 	TEST_ASSET_ETCD=_test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/etcd \
@@ -36,10 +38,19 @@ rendered-manifest.yaml: $(OUT)/rendered-manifest.yaml
 
 $(OUT)/rendered-manifest.yaml: $(HELM_FILES) | $(OUT)
 	helm template \
-	    --name example-webhook \
+	    --name porkbun-webhook \
             --set image.repository=$(IMAGE_NAME) \
             --set image.tag=$(IMAGE_TAG) \
-            deploy/example-webhook > $@
+            deploy/porkbun-webhook > $@
 
 _test $(OUT) _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH):
 	mkdir -p $@
+
+.PHONY: helm-plugins
+helm-plugins: $(HELM_UNITTEST_PLUGIN)
+
+$(HELM_UNITTEST_PLUGIN):
+	helm plugin install https://github.com/helm-unittest/helm-unittest.git 
+
+helm-test: $(HELM_UNITTEST_PLUGIN)
+	helm unittest deploy/porkbun-webhook/

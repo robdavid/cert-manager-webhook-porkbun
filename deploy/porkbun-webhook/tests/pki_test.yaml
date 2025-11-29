@@ -1,0 +1,9 @@
+suite: test apiservice
+templates:
+  - pki.yaml
+tests:
+  - it: should pass basic checks
+    set:
+      groupName: example.com
+    asserts:
+      - matchSnapshot: {}

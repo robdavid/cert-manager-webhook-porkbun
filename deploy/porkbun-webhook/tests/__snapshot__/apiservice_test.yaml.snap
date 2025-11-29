@@ -1,0 +1,21 @@
+should pass basic checks:
+  1: |
+    apiVersion: apiregistration.k8s.io/v1
+    kind: APIService
+    metadata:
+      annotations:
+        cert-manager.io/inject-ca-from: NAMESPACE/RELEASE-NAME-cert-manager-porkbun-webhook-webhook-tls
+      labels:
+        app: cert-manager-porkbun-webhook
+        chart: cert-manager-porkbun-webhook-0.4.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: v1alpha1.example.com
+    spec:
+      group: example.com
+      groupPriorityMinimum: 1000
+      service:
+        name: RELEASE-NAME-cert-manager-porkbun-webhook
+        namespace: NAMESPACE
+      version: v1alpha1
+      versionPriority: 15
