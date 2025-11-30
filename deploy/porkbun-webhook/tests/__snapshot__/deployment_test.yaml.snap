@@ -5,7 +5,7 @@ should pass basic checks:
     metadata:
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.4.0
+        chart: cert-manager-porkbun-webhook-0.5.0
         heritage: Helm
         release: RELEASE-NAME
       name: RELEASE-NAME-cert-manager-porkbun-webhook
@@ -29,7 +29,7 @@ should pass basic checks:
               env:
                 - name: GROUP_NAME
                   value: example.com
-              image: ghcr.io/robdavid/cert-manager-webhook-porkbun:v0.4.0
+              image: ghcr.io/robdavid/cert-manager-webhook-porkbun:v0.5.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
                 httpGet:

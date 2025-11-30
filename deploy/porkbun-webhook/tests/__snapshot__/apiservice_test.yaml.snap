@@ -7,7 +7,7 @@ should pass basic checks:
         cert-manager.io/inject-ca-from: NAMESPACE/RELEASE-NAME-cert-manager-porkbun-webhook-webhook-tls
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.4.0
+        chart: cert-manager-porkbun-webhook-0.5.0
         heritage: Helm
         release: RELEASE-NAME
       name: v1alpha1.example.com
