@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   cert-manager-porkbun-webhook:
   - apiVersion: v1
+    appVersion: 0.5.0
+    created: "2025-11-30T00:36:44.448501658Z"
+    description: A Porkbun solver for cert-manager
+    digest: 4365407f10e4c516c6a35fb2055cf086b078c59388d733b0ed7b263269f1d11f
+    name: cert-manager-porkbun-webhook
+    urls:
+    - https://github.com/robdavid/cert-manager-webhook-porkbun/releases/download/cert-manager-porkbun-webhook-0.5.0/cert-manager-porkbun-webhook-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v1
     appVersion: 0.4.0
     created: "2025-11-28T19:03:11.494303784Z"
     description: A Porkbun solver for cert-manager
@@ -10,4 +19,4 @@ entries:
     urls:
     - https://github.com/robdavid/cert-manager-webhook-porkbun/releases/download/cert-manager-porkbun-webhook-0.4.0/cert-manager-porkbun-webhook-0.4.0.tgz
     version: 0.4.0
-generated: "2025-11-28T19:03:11.494313061Z"
+generated: "2025-11-30T00:36:44.448510785Z"
