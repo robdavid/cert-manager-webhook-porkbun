@@ -3,7 +3,7 @@ OS ?= $(shell $(GO) env GOOS)
 ARCH ?= $(shell $(GO) env GOARCH)
 
 IMAGE_NAME := "cert-manager-webhook-porkbun"
-IMAGE_TAG := "v0.4.0"
+IMAGE_TAG := "v0.5.0"
 
 OUT := $(shell pwd)/_out
 

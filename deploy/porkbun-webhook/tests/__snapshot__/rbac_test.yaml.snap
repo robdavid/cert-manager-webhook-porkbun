@@ -5,7 +5,7 @@ should pass basic checks:
     metadata:
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.4.0
+        chart: cert-manager-porkbun-webhook-0.5.0
         heritage: Helm
         release: instance
       name: instance-cert-manager-porkbun-webhook
@@ -16,7 +16,7 @@ should pass basic checks:
     metadata:
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.4.0
+        chart: cert-manager-porkbun-webhook-0.5.0
         heritage: Helm
         release: instance
       name: instance-cert-manager-porkbun-webhook:webhook-authentication-reader
@@ -36,7 +36,7 @@ should pass basic checks:
     metadata:
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.4.0
+        chart: cert-manager-porkbun-webhook-0.5.0
         heritage: Helm
         release: instance
       name: instance-cert-manager-porkbun-webhook:auth-delegator
@@ -55,7 +55,7 @@ should pass basic checks:
     metadata:
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.4.0
+        chart: cert-manager-porkbun-webhook-0.5.0
         heritage: Helm
         release: instance
       name: instance-cert-manager-porkbun-webhook:domain-solver
@@ -72,7 +72,7 @@ should pass basic checks:
     metadata:
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.4.0
+        chart: cert-manager-porkbun-webhook-0.5.0
         heritage: Helm
         release: instance
       name: instance-cert-manager-porkbun-webhook:domain-solver
