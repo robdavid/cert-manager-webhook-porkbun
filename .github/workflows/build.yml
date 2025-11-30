@@ -24,7 +24,6 @@ jobs:
       - uses: d3adb5/helm-unittest-action@v2
         with:
           helm-version: v3.19.0
-          charts: deploy
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
