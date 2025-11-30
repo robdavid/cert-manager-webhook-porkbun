@@ -1,0 +1,66 @@
+should pass basic checks:
+  1: |
+    apiVersion: cert-manager.io/v1
+    kind: Issuer
+    metadata:
+      labels:
+        app: cert-manager-porkbun-webhook
+        chart: cert-manager-porkbun-webhook-0.4.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: RELEASE-NAME-cert-manager-porkbun-webhook-selfsign
+      namespace: NAMESPACE
+    spec:
+      selfSigned: {}
+  2: |
+    apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      labels:
+        app: cert-manager-porkbun-webhook
+        chart: cert-manager-porkbun-webhook-0.4.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: RELEASE-NAME-cert-manager-porkbun-webhook-ca
+      namespace: NAMESPACE
+    spec:
+      commonName: ca.porkbun-webhook.cert-manager
+      duration: 43800h
+      isCA: true
+      issuerRef:
+        name: RELEASE-NAME-cert-manager-porkbun-webhook-selfsign
+      secretName: RELEASE-NAME-cert-manager-porkbun-webhook-ca
+  3: |
+    apiVersion: cert-manager.io/v1
+    kind: Issuer
+    metadata:
+      labels:
+        app: cert-manager-porkbun-webhook
+        chart: cert-manager-porkbun-webhook-0.4.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: RELEASE-NAME-cert-manager-porkbun-webhook-ca
+      namespace: NAMESPACE
+    spec:
+      ca:
+        secretName: RELEASE-NAME-cert-manager-porkbun-webhook-ca
+  4: |
+    apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      labels:
+        app: cert-manager-porkbun-webhook
+        chart: cert-manager-porkbun-webhook-0.4.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: RELEASE-NAME-cert-manager-porkbun-webhook-webhook-tls
+      namespace: NAMESPACE
+    spec:
+      dnsNames:
+        - RELEASE-NAME-cert-manager-porkbun-webhook
+        - RELEASE-NAME-cert-manager-porkbun-webhook.NAMESPACE
+        - RELEASE-NAME-cert-manager-porkbun-webhook.NAMESPACE.svc
+      duration: 8760h
+      issuerRef:
+        name: RELEASE-NAME-cert-manager-porkbun-webhook-ca
+      secretName: RELEASE-NAME-cert-manager-porkbun-webhook-webhook-tls

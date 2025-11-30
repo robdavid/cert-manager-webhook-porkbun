@@ -1,0 +1,11 @@
+suite: test deployment
+templates:
+  - deployment.yaml
+tests:
+  - it: should pass basic checks
+    set:
+      groupName: example.com
+    asserts:
+      - isKind:
+          of: Deployment
+      - matchSnapshot: {}

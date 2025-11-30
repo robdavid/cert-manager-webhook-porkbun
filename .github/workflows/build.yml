@@ -13,6 +13,20 @@ env:
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
 jobs:
+  helmtests:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: d3adb5/helm-unittest-action@v2
+        with:
+          helm-version: v3.19.0
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
   build:
 
     runs-on: ubuntu-latest

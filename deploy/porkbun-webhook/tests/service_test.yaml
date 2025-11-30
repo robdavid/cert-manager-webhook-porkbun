@@ -1,0 +1,11 @@
+suite: test service
+templates:
+  - service.yaml
+tests:
+  - it: should pass basic checks
+    set:
+      groupName: example.com
+    asserts:
+      - isKind:
+          of: Service
+      - matchSnapshot: {}

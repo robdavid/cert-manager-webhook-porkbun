@@ -5,7 +5,7 @@ import (
 
 	"github.com/cert-manager/cert-manager/pkg/acme/webhook/cmd"
 
-	"github.com/kjaleshire/cert-manager-webhook-porkbun/porkbun"
+	"github.com/robdavid/cert-manager-webhook-porkbun/porkbun"
 )
 
 var GroupName = os.Getenv("GROUP_NAME")
@@ -22,4 +22,3 @@ func main() {
 	// the different implementations.
 	cmd.RunWebhookServer(GroupName, porkbun.New())
 }
-

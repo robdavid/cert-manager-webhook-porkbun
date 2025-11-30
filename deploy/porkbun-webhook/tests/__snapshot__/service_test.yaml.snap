@@ -1,0 +1,22 @@
+should pass basic checks:
+  1: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: cert-manager-porkbun-webhook
+        chart: cert-manager-porkbun-webhook-0.4.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: RELEASE-NAME-cert-manager-porkbun-webhook
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - name: https
+          port: 443
+          protocol: TCP
+          targetPort: https
+      selector:
+        app: cert-manager-porkbun-webhook
+        release: RELEASE-NAME
+      type: ClusterIP
