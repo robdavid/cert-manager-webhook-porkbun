@@ -2,8 +2,8 @@ GO ?= $(shell which go)
 OS ?= $(shell $(GO) env GOOS)
 ARCH ?= $(shell $(GO) env GOARCH)
 
-IMAGE_NAME := "cert-manager-webhook-porkbun"
-IMAGE_TAG := "v0.5.0"
+IMAGE_NAME := $(shell yq .name deploy/porkbun-webhook/Chart.yaml)
+IMAGE_TAG := v$(shell yq .appVersion deploy/porkbun-webhook/Chart.yaml)
 
 OUT := $(shell pwd)/_out
 
@@ -32,6 +32,14 @@ clean:
 .PHONY: build
 build:
 	docker build -t "$(IMAGE_NAME):$(IMAGE_TAG)" .
+
+.PHONY: vars
+vars:
+	@echo "OS           = ${OS}"
+	@echo "ARCH         = ${ARCH}"
+	@echo "IMAGE_NAME   = $(IMAGE_NAME)"
+	@echo "IMAGE_TAG    = $(IMAGE_TAG)"
+	@echo "HELM PLUGINS = $(HELM_PLUGINS)"
 
 .PHONY: rendered-manifest.yaml
 rendered-manifest.yaml: $(OUT)/rendered-manifest.yaml
