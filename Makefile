@@ -4,6 +4,8 @@ ARCH ?= $(shell $(GO) env GOARCH)
 
 IMAGE_NAME := $(shell yq .name deploy/porkbun-webhook/Chart.yaml)
 IMAGE_TAG := v$(shell yq .appVersion deploy/porkbun-webhook/Chart.yaml)
+NEW_VERSION ?= ""
+CHART_VERSION = $(NEW_VERSION:v%=%)
 
 OUT := $(shell pwd)/_out
 
@@ -35,11 +37,13 @@ build:
 
 .PHONY: vars
 vars:
-	@echo "OS           = ${OS}"
-	@echo "ARCH         = ${ARCH}"
-	@echo "IMAGE_NAME   = $(IMAGE_NAME)"
-	@echo "IMAGE_TAG    = $(IMAGE_TAG)"
-	@echo "HELM PLUGINS = $(HELM_PLUGINS)"
+	@echo "OS            = ${OS}"
+	@echo "ARCH          = ${ARCH}"
+	@echo "IMAGE_NAME    = $(IMAGE_NAME)"
+	@echo "IMAGE_TAG     = $(IMAGE_TAG)"
+	@echo "HELM PLUGINS  = $(HELM_PLUGINS)"
+	@echo "NEW_VERSION   = $(NEW_VERSION)"
+	@echo "CHART_VERSION = $(CHART_VERSION)"
 
 .PHONY: rendered-manifest.yaml
 rendered-manifest.yaml: $(OUT)/rendered-manifest.yaml
@@ -62,3 +66,10 @@ $(HELM_UNITTEST_PLUGIN):
 
 helm-test: $(HELM_UNITTEST_PLUGIN)
 	helm unittest deploy/porkbun-webhook/
+
+test-tag:
+	test -n "$(NEW_VERSION)" && test -z $(shell git tag --list $(NEW_VERSION))
+
+bump: test-tag helm-test
+	yq -i '.appVersion="$(CHART_VERSION)", .version="$(CHART_VERSION)"' deploy/porkbun-webhook/Chart.yaml
+	helm unittest -u deploy/porkbun-webhook/
