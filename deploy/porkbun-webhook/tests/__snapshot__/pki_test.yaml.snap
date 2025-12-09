@@ -5,7 +5,7 @@ should pass basic checks:
     metadata:
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.5.0
+        chart: cert-manager-porkbun-webhook-0.6.0
         heritage: Helm
         release: RELEASE-NAME
       name: RELEASE-NAME-cert-manager-porkbun-webhook-selfsign
@@ -18,7 +18,7 @@ should pass basic checks:
     metadata:
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.5.0
+        chart: cert-manager-porkbun-webhook-0.6.0
         heritage: Helm
         release: RELEASE-NAME
       name: RELEASE-NAME-cert-manager-porkbun-webhook-ca
@@ -36,7 +36,7 @@ should pass basic checks:
     metadata:
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.5.0
+        chart: cert-manager-porkbun-webhook-0.6.0
         heritage: Helm
         release: RELEASE-NAME
       name: RELEASE-NAME-cert-manager-porkbun-webhook-ca
@@ -50,7 +50,7 @@ should pass basic checks:
     metadata:
       labels:
         app: cert-manager-porkbun-webhook
-        chart: cert-manager-porkbun-webhook-0.5.0
+        chart: cert-manager-porkbun-webhook-0.6.0
         heritage: Helm
         release: RELEASE-NAME
       name: RELEASE-NAME-cert-manager-porkbun-webhook-webhook-tls
