@@ -23,7 +23,7 @@ spec:
       serviceAccountName: {{ include "porkbun-webhook.fullname" . }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: {{ printf "%s:%s" .Values.image.repository (default (printf "v%s" .Chart.AppVersion) .Values.image.tag) | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - --tls-cert-file=/tls/tls.crt

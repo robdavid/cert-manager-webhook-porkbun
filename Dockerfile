@@ -1,4 +1,4 @@
-FROM golang:1.24-alpine3.20 AS build_deps
+FROM golang:1.25-alpine3.23 AS build_deps
 
 RUN apk add --no-cache --update ca-certificates git tzdata
 
