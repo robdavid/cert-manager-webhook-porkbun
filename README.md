@@ -63,6 +63,15 @@ DNS01 webhook.**
 
 To run the tests, first put your api key into testdata/porkbun-solver/porkbun-secret.yaml.
 
+Next use the provided Nix flake to create a dev environment with the required dependencies:
+
+```bash
+nix develop
+```
+
+If you have [direnv](https://direnv.net/) enabled for the project directory,
+the environment is created automatically when you enter the directory.
+
 Then you can run the test suite with:
 
 ```bash
