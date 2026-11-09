@@ -1,7 +1,3 @@
-GO ?= $(shell which go)
-OS ?= $(shell $(GO) env GOOS)
-ARCH ?= $(shell $(GO) env GOARCH)
-
 IMAGE_NAME := $(shell yq .name deploy/porkbun-webhook/Chart.yaml)
 IMAGE_TAG := v$(shell yq .appVersion deploy/porkbun-webhook/Chart.yaml)
 NEW_VERSION ?= ""
@@ -9,27 +5,12 @@ CHART_VERSION = $(NEW_VERSION:v%=%)
 
 OUT := $(shell pwd)/_out
 
-KUBEBUILDER_VERSION=1.28.0
-
 HELM_FILES := $(shell find deploy/porkbun-webhook)
 HELM_PLUGINS := $(shell helm env HELM_PLUGINS)
 HELM_UNITTEST_PLUGIN := $(HELM_PLUGINS)/helm-unittest.git
 
-test: _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/etcd _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/kube-apiserver _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/kubectl
-	TEST_ASSET_ETCD=_test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/etcd \
-	TEST_ASSET_KUBE_APISERVER=_test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/kube-apiserver \
-	TEST_ASSET_KUBECTL=_test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/kubectl \
-	$(GO) test -v .
-
-_test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH).tar.gz: | _test
-	curl -fsSL https://go.kubebuilder.io/test-tools/$(KUBEBUILDER_VERSION)/$(OS)/$(ARCH) -o $@
-
-_test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/etcd _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/kube-apiserver _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)/kubectl: _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH).tar.gz | _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH)
-	tar xfO $< kubebuilder/bin/$(notdir $@) > $@ && chmod +x $@
-
-.PHONY: clean
-clean:
-	rm -r _test $(OUT)
+test: 
+	go test -v .
 
 .PHONY: build
 build:
@@ -54,9 +35,6 @@ $(OUT)/rendered-manifest.yaml: $(HELM_FILES) | $(OUT)
             --set image.repository=$(IMAGE_NAME) \
             --set image.tag=$(IMAGE_TAG) \
             deploy/porkbun-webhook > $@
-
-_test $(OUT) _test/kubebuilder-$(KUBEBUILDER_VERSION)-$(OS)-$(ARCH):
-	mkdir -p $@
 
 .PHONY: helm-plugins
 helm-plugins: $(HELM_UNITTEST_PLUGIN)
